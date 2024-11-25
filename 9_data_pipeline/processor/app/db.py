@@ -1,14 +1,21 @@
-
 import mysql.connector
+from mysql.connector import Error
 import os
 
 def connect_to_db():
-    return mysql.connector.connect(
-        host=os.getenv("MYSQL_HOST"),
-        user=os.getenv("MYSQL_USER"),
-        password=os.getenv("MYSQL_PASSWORD"),
-        database=os.getenv("MYSQL_DATABASE")
-    )
+    connection = None
+    try:
+        connection = mysql.connector.connect(
+            host=os.getenv("MYSQL_HOST"),
+            user=os.getenv("MYSQL_USER"),
+            password=os.getenv("MYSQL_PASSWORD"),
+            database=os.getenv("MYSQL_DATABASE")
+        )
+        print("Conexão Estabelecida.")
+    except Error as e:
+        print("Erro na conexão",e)
+
+    return connection
 
 def create_table(cursor):
     cursor.execute("""
